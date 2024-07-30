@@ -12,3 +12,5 @@ vim.filetype.add({
 })
 
 vim.treesitter.language.register("angular", "angular.html")
+
+vim.opt.autochdir = true
