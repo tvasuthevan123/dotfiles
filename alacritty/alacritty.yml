@@ -17,6 +17,9 @@ font:
 
   size: 12
 
+env:
+  term: "xterm-256color"
+
 shell:
   program: /bin/zsh
   args:
