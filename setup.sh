@@ -1,13 +1,12 @@
 echo "Creating symbolic links for nvim, tmux"
-
 mkdir -p ~/.config
 mkdir -p ~/.config/nvim/
 mkdir -p ~/.config/.tmux/
 mkdir -p ~/.config/fish/
 
-ln -sf "$(pwd)/dotfiles/nvim" ~/.config/nvim/
-ln -sf "$(pwd)/dotfiles/tmux" ~/.config/tmux/
-ln -sf "$(pwd)/dotfiles/fish" ~/.config/fish/
+ln -sf "$(pwd)/dotfiles/nvim" ~/.config
+ln -sf "$(pwd)/dotfiles/tmux" ~/.config
+ln -sf "$(pwd)/dotfiles/fish" ~/.config
 
 echo "Cloning tpm"
 rm -rf ~/.config/tmux/plugins/
