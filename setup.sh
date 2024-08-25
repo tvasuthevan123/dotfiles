@@ -6,7 +6,7 @@ mkdir -p ~/.config/.tmux/
 mkdir -p ~/.config/fish/
 
 ln -sf "$(pwd)/dotfiles/nvim" ~/.config/nvim/
-ln -sf "$(pwd)/dotfiles/tmux" ~/.config/.tmux/
+ln -sf "$(pwd)/dotfiles/tmux" ~/.config/tmux/
 ln -sf "$(pwd)/dotfiles/fish" ~/.config/fish/
 
 echo "Cloning tpm"
