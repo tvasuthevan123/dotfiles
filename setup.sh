@@ -13,5 +13,5 @@ git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
 echo "Install TMUX plugins"
 tmux start-server
 tmux new-session -d -A -s main
-~/.config/tmux/plugins/bin/install_plugins
+~/.config/tmux/plugins/tpm/bin/install_plugins
 tmux kill-server
