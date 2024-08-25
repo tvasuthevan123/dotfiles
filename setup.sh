@@ -3,7 +3,9 @@
 if [ -f "./.gitconfig" ]; then
 	current_config=$(cat "./.gitconfig")
 
-	echo "$current_config" >>"$HOME/.gitconfig"
+	if ! grep -q "delta" "$HOME/.gitconfig"; then
+		echo "$current_config" >>"$HOME/.gitconfig"
+	fi
 
 	echo "Successfully appended .gitconfig from current directory to ~/.gitconfig"
 else
