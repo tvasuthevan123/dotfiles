@@ -8,7 +8,7 @@ ln -sf "$(pwd)/dotfiles/fish" ~/.config
 echo "Cloning tpm"
 rm -rf ~/.config/tmux/plugins/
 
-git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/
+git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
 
 echo "Install TMUX plugins"
 tmux start-server
