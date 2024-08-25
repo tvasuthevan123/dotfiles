@@ -1,3 +1,15 @@
+#!/bin/bash
+
+if [ -f "./.gitconfig" ]; then
+	current_config=$(cat "./.gitconfig")
+
+	echo "$current_config" >>"$HOME/.gitconfig"
+
+	echo "Successfully appended .gitconfig from current directory to ~/.gitconfig"
+else
+	echo "Error: .gitconfig file not found in the current directory."
+fi
+
 echo "Create .config directory"
 mkdir -p ~/.config
 
