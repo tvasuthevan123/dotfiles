@@ -5,8 +5,6 @@ end
 string match -q "$TERM_PROGRAM" vscode
 and . (code --locate-shell-integration-path fish)
 
-export NPM_TOKEN="glpat-XS-2FmkTFgDAmddzsK7-"
-
 set -x UJ_DIR $HOME/Documents/UJ
 
 function repos
