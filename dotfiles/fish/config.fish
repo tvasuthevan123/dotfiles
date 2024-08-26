@@ -14,6 +14,8 @@ end
 alias wmill-stag="wmill workspace switch staging"
 alias wpull="wmill sync pull"
 alias wpush="wmill sync push"
+alias ls="eza -l --git --icons -x permissions,username,date_modified"
+alias tree="eza -TL"
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/thanuj/google-cloud-sdk/path.fish.inc' ]
