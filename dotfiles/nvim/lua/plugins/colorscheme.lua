@@ -1,37 +1,54 @@
 return {
-  "Mofiqul/vscode.nvim",
-  lazy = false,
-  priority = 1000,
-  config = function()
-    local c = require("vscode.colors").get_colors()
-    require("vscode").setup({
-      -- Alternatively set style in setup
-      -- style = 'light'
 
-      -- Enable transparent background
-      transparent = true,
+  -- tokyonight
+  {
+    "folke/tokyonight.nvim",
+    lazy = true,
+    opts = { style = "moon" },
+  },
 
-      -- Enable italic comment
-      italic_comments = true,
-
-      -- Underline `@markup.link.*` variants
-      underline_links = true,
-
-      -- Disable nvim-tree background color
-      disable_nvimtree_bg = true,
-
-      -- Override colors (see ./lua/vscode/colors.lua)
-      color_overrides = {
-        vscLineNumber = "#FFFFFF",
+  -- catppuccin
+  {
+    "catppuccin/nvim",
+    lazy = true,
+    name = "catppuccin",
+    opts = {
+      integrations = {
+        aerial = true,
+        alpha = true,
+        cmp = true,
+        dashboard = true,
+        flash = true,
+        grug_far = true,
+        gitsigns = true,
+        headlines = true,
+        illuminate = true,
+        indent_blankline = { enabled = true },
+        leap = true,
+        lsp_trouble = true,
+        mason = true,
+        markdown = true,
+        mini = true,
+        native_lsp = {
+          enabled = true,
+          underlines = {
+            errors = { "undercurl" },
+            hints = { "undercurl" },
+            warnings = { "undercurl" },
+            information = { "undercurl" },
+          },
+        },
+        navic = { enabled = true, custom_bg = "lualine" },
+        neotest = true,
+        neotree = true,
+        noice = true,
+        notify = true,
+        semantic_tokens = true,
+        telescope = true,
+        treesitter = true,
+        treesitter_context = true,
+        which_key = true,
       },
-
-      -- Override highlight groups (see ./lua/vscode/theme.lua)
-      group_overrides = {
-        -- this supports the same val table as vim.api.nvim_set_hl
-        -- use colors from this colorscheme by requiring vscode.colors!
-        Cursor = { fg = c.vscDarkBlue, bg = c.vscLightGreen, bold = true },
-      },
-    })
-    vim.cmd.colorscheme("vscode")
-  end,
+    },
+  },
 }
