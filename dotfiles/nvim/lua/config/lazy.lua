@@ -7,8 +7,9 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
 
-require("lazy").setup({
-  spec = {
-    { import = "plugins" },
-  },
+require("lazy").setup("plugins", {
+    change_detection = {
+        enabled = true,
+        notify = false,
+    }
 })
