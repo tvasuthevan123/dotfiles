@@ -31,4 +31,4 @@ echo "Install TMUX plugins"
 tmux start-server
 tmux new-session -d -A -s main
 ~/.config/tmux/plugins/tpm/bin/install_plugins
-tmux kill-server
+# tmux kill-server
