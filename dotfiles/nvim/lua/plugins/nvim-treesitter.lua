@@ -54,6 +54,7 @@ return {
       "bash",
       "c",
       "diff",
+      "gdscript",
       "glimmer",
       "html",
       "javascript",
