@@ -6,6 +6,7 @@ string match -q "$TERM_PROGRAM" vscode
 and . (code --locate-shell-integration-path fish)
 
 set -x UJ_DIR $HOME/Documents/UJ
+set -x GDScript_Port 7032
 
 function repos
     cd $UJ_DIR/$argv[1]
