@@ -13,6 +13,7 @@ function repos
 end
 
 alias wmill-stag="wmill workspace switch staging"
+alias wmill-dev="wmill workspace switch dev"
 alias wpull="wmill sync pull"
 alias wpush="wmill sync push"
 alias ls="eza -l --git --icons"
@@ -22,6 +23,10 @@ alias tree="eza -TL"
 if [ -f '/Users/thanuj/google-cloud-sdk/path.fish.inc' ]
     . '/Users/thanuj/google-cloud-sdk/path.fish.inc'
 end
+
+set -x NVM_DIR $HOME/.nvm
+
+bass source '/opt/homebrew/opt/nvm/nvm.sh'
 
 set -x DENO_INSTALL $HOME/.deno
 fish_add_path $HOME/.deno

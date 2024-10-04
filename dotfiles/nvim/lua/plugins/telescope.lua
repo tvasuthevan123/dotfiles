@@ -125,20 +125,9 @@ return {
       builtin.find_files({
         no_ignore = false,
         hidden = true,
+        respect_gitignore = false,
         path_display = { "filename_first" },
         file_ignore_patterns = { "node_modules", ".git/", ".venv", "node_modules" },
-        mappings = {
-          ["r"] = fb_actions.rename,
-        },
-      })
-    end)
-    vim.keymap.set("n", "<leader>sF", function()
-      builtin.find_files({
-        no_ignore = false,
-        hidden = true,
-        respect_gitignore = false,
-        file_ignore_patterns = {},
-        path_display = { "filename_first" },
         mappings = {
           ["r"] = fb_actions.rename,
         },
