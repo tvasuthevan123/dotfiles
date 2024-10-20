@@ -48,7 +48,11 @@ return {
   ---@diagnostic disable-next-line: missing-fields
   opts = {
     highlight = { enable = true },
-    indent = { enable = true },
+    indent = {
+      disable = {
+        "gdscript",
+      },
+    },
     ensure_installed = {
       "angular",
       "bash",
