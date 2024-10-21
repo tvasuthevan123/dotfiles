@@ -7,3 +7,5 @@
 - Delta
 - fzf
 - Eza
+- fish
+- ohmyfish

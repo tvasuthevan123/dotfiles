@@ -78,3 +78,6 @@ keymap.set("n", "<leader>tb", "<cmd>Gitsigns toggle_current_line_blame<CR>", { n
 
 -- Telescope file browser
 vim.keymap.set("n", "<space>fb", ":Telescope file_browser path=%:p:h select_buffer=true<CR>")
+
+-- Oil file_browser
+vim.keymap.set("n", "-", "<CMD>Oil --float<CR>", { desc = "Open parent directory" })
