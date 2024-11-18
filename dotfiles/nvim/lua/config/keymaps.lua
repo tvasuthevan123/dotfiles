@@ -23,6 +23,7 @@ keymap.set("n", "sh", ":split<Return><C-w>w")
 keymap.set("n", "sv", ":vsplit<Return><C-w>w")
 -- Move window
 keymap.set("n", "§", "<C-w>w")
+keymap.set("n", "`", "<C-w>w")
 keymap.set("n", "\\", "<C-w>w")
 keymap.set("", "sh", "<C-w>h")
 keymap.set("", "sk", "<C-w>k")
