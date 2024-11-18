@@ -1,10 +1,14 @@
-local lazy = require("lazy").lazy
+local lazy = require("lazy.core.config")
 
-function get_plugin(plugin_name)
+local M = {}
+
+function M.get_plugin(plugin_name)
     local plugins = lazy.plugins
     return plugins[plugin_name] ~= nil
 end
 
-function has(plugin)
-    return get_plugin(plugin) ~= nil
+function M.has(plugin)
+    return M.get_plugin(plugin) ~= nil
 end
+
+return M

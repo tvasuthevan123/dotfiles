@@ -11,6 +11,7 @@
 -- }
 return {
   "habamax/vim-godot",
+  enabled = false,
   event = "BufEnter *.gd",
   config = function()
     local null_ls = require("null-ls")
