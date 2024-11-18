@@ -7,39 +7,34 @@ return {
     branch = 'v4.x',
     dependencies = {
       -- LSP Support
-      { 'neovim/nvim-lspconfig' },          -- Required
-      { 'williamboman/mason.nvim' },        -- Optional
+      { 'neovim/nvim-lspconfig' },             -- Required
+      { 'williamboman/mason.nvim' },           -- Optional
       { 'williamboman/mason-lspconfig.nvim' }, -- Optional
 
       -- Autocompletion
-      { 'hrsh7th/nvim-cmp' },      -- Required
-      { 'hrsh7th/cmp-nvim-lsp' },  -- Required
-      { 'hrsh7th/cmp-buffer' },    -- Optional
-      { 'hrsh7th/cmp-path' },      -- Optional
+      { 'hrsh7th/nvim-cmp' },         -- Required
+      { 'hrsh7th/cmp-nvim-lsp' },     -- Required
+      { 'hrsh7th/cmp-buffer' },       -- Optional
+      { 'hrsh7th/cmp-path' },         -- Optional
       { 'saadparwaiz1/cmp_luasnip' }, -- Optional
-      { 'hrsh7th/cmp-nvim-lua' },  -- Optional
+      { 'hrsh7th/cmp-nvim-lua' },     -- Optional
 
       -- Snippets
-      { 'L3MON4D3/LuaSnip' },          -- Required
+      { 'L3MON4D3/LuaSnip' },             -- Required
 
       { 'rafamadriz/friendly-snippets' }, -- Optional
       { 'ray-x/lsp_signature.nvim' }
     },
     config = function()
       local status, lspkind = pcall(require, "lspkind")
-      print("DEBUG LSP KIND")
 
       if (not status) then
-        print("DEBUG Not status")
+        print("Failed to setup lspzero")
         return
       end
 
-      print("DEBUG Setting up")
       lspkind.init({
-        -- enables text annotations
-        --
-        -- default: true
-        mode = 'text_symbol',
+        mode = 'symbol_text',
 
         -- default symbol map
         -- can be either 'default' (requires nerd-fonts font) or
@@ -47,35 +42,36 @@ return {
         --
         -- default: 'default'
         preset = 'codicons',
+
         -- override preset symbols
         --
         -- default: {}
         symbol_map = {
-          Text = "T",
-          Method = " ",
-          Function = " ",
-          Constructor = " ",
-          Field = "ﰠ ",
-          Variable = " ",
-          Class = "ﴯ ",
-          Interface = " ",
-          Module = " ",
-          Property = "ﰠ ",
-          Unit = "塞 ",
-          Value = " ",
-          Enum = " ",
-          Keyword = " ",
-          Snippet = " ",
-          Color = " ",
-          File = " ",
-          Reference = " ",
-          Folder = " ",
-          EnumMember = " ",
-          Constant = " ",
-          Struct = "פּ ",
-          Event = " ",
-          Operator = " ",
-          TypeParameter = " "
+          Text = "󰉿",
+          Method = "󰆧",
+          Function = "󰊕",
+          Constructor = "",
+          Field = "󰜢",
+          Variable = "󰀫",
+          Class = "󰠱",
+          Interface = "",
+          Module = "",
+          Property = "󰜢",
+          Unit = "󰑭",
+          Value = "󰎠",
+          Enum = "",
+          Keyword = "󰌋",
+          Snippet = "",
+          Color = "󰏘",
+          File = "󰈙",
+          Reference = "󰈇",
+          Folder = "󰉋",
+          EnumMember = "",
+          Constant = "󰏿",
+          Struct = "󰙅",
+          Event = "",
+          Operator = "󰆕",
+          TypeParameter = "K",
         },
       })
 
@@ -274,7 +270,7 @@ return {
           border = "single",
         },
         always_trigger = true, -- sometime show signature on new line or in middle of parameter can be confusing, set it to false for #58
-        toggle_key = '<C-s>', -- toggle signature on and off in insert mode,  e.g. toggle_key = '<M-x>'
+        toggle_key = '<C-s>',  -- toggle signature on and off in insert mode,  e.g. toggle_key = '<M-x>'
         timer_interval = 100,
         transparency = 100,
         hi_parameter = "LspSignatureActiveParameter", -- how your parameter will be highlight
