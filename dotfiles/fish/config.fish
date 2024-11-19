@@ -7,6 +7,7 @@ and . (code --locate-shell-integration-path fish)
 
 set -x UJ_DIR $HOME/Documents/UJ
 set -x GDScript_Port 7032
+set -x KUBE_EDITOR nvim
 
 function repos
     cd $UJ_DIR/$argv[1]
