@@ -209,17 +209,17 @@ return {
         }
       })
 
-      lspconfig.angularls.setup({
-        filetypes = { "angular.html" },
-        on_attach = function(client, bufnr)
-        end
-      })
+      -- lspconfig.angularls.setup({
+      --   filetypes = { "angular.html" },
+      --   on_attach = function(client, bufnr)
+      --   end
+      -- })
 
-      lspconfig.tailwindcss.setup({
-        filetypes = { "angular.html" },
-        on_attach = function(client, bufnr)
-        end
-      })
+      -- lspconfig.tailwindcss.setup({
+      --   filetypes = { "angular" },
+      --   on_attach = function(client, bufnr)
+      --   end
+      -- })
 
       local status, cmp = pcall(require, "cmp")
       if (not status) then
@@ -281,22 +281,22 @@ return {
       vim.highlight.priorities.semantic_tokens = 95
     end
   },
-
   {
     'williamboman/mason-lspconfig.nvim',
-  }, {
-  'williamboman/mason.nvim',
-  opts = {
-    ui = {
-      border = "single",
-      icons = {
-        package_installed = "✓",
-        package_pending = "➜",
-        package_uninstalled = "✗"
+  },
+  {
+    'williamboman/mason.nvim',
+    opts = {
+      ui = {
+        border = "single",
+        icons = {
+          package_installed = "✓",
+          package_pending = "➜",
+          package_uninstalled = "✗"
+        }
       }
     }
-  }
-},
+  },
   {
     "L3MON4D3/LuaSnip",
     -- follow latest release.
