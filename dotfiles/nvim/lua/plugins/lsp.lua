@@ -165,7 +165,16 @@ return {
       })
       -- lspconfig
       require('mason-lspconfig').setup({
-        ensure_installed = { 'rust_analyzer' },
+        ensure_installed = { 
+          'rust_analyzer',
+          'eslint', 
+          'tailwindcss', 
+          'dockerls', 
+          'docker_compose_language_service', 
+          'pyright',
+          'angularls', 
+          'ltex', 
+          'spectral'  },
         handlers = {
           lspzero.default_setup,
         }
