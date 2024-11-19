@@ -19,6 +19,7 @@ return {
         max_height = 0,
       },
       win_options = {
+        winbar = "%{v:lua.require('oil').get_current_dir()}",
         wrap = true,
         winblend = 0,
       },
