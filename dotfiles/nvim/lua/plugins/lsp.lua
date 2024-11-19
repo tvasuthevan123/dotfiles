@@ -160,7 +160,8 @@ return {
           ['lua_ls'] = { 'lua' },
           ['rust_analyzer'] = { 'rust' },
           ['gopls'] = { 'go' },
-          ['prettier'] = { 'typescript' },
+          ['prettier'] = { 'typescript', 'yaml', 'json' },
+          ['ruff'] = { 'python' },
         }
       })
       -- lspconfig
@@ -174,9 +175,15 @@ return {
           'pyright',
           'angularls', 
           'ltex', 
-          'spectral'  },
+        },
         handlers = {
           lspzero.default_setup,
+        }
+      })
+
+      require('mason').setup({
+        ensure_installed = {
+          'prettier'
         }
       })
 
@@ -218,17 +225,9 @@ return {
         }
       })
 
-      -- lspconfig.angularls.setup({
-      --   filetypes = { "angular.html" },
-      --   on_attach = function(client, bufnr)
-      --   end
-      -- })
+      lspconfig.angularls.setup({})
 
-      -- lspconfig.tailwindcss.setup({
-      --   filetypes = { "angular" },
-      --   on_attach = function(client, bufnr)
-      --   end
-      -- })
+      lspconfig.tailwindcss.setup({})
 
       local status, cmp = pcall(require, "cmp")
       if (not status) then

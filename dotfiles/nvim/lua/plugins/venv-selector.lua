@@ -27,7 +27,7 @@ return {
   branch = "regexp", -- This is the regexp branch, use this for the new version
   stay_on_this_version = true,
   config = function()
-    require("venv-selector").setup()
+    require("venv-selector").setup() 
   end,
   keys = {
     { "<leader>cv", "<cmd>VenvSelect<cr>" },
