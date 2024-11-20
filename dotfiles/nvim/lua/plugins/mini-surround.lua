@@ -47,13 +47,13 @@ return {
       add = 'sa',                     -- Add surrounding in Normal and Visual modes
       delete = 'sd',                  -- Delete surrounding
 
-      find = '<Leader>sf',            -- Find surrounding (to the right)
-      find_left = '<Leader>sF',       -- Find surrounding (to the left)
+      find = '<Leader>af',            -- Find surrounding (to the right)
+      find_left = '<Leader>aF',       -- Find surrounding (to the left)
 
       highlight = '<Leader>sh',       -- Highlight surrounding
-      replace = 'sr',                 -- Replace surrounding
+      replace = 'ar',                 -- Replace surrounding
 
-      update_n_lines = 'sn',          -- Update `n_lines`
+      update_n_lines = 'an',          -- Update `n_lines`
 
 
       suffix_last = 'l',       -- Suffix to search with "prev" method
