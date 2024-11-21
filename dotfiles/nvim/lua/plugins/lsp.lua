@@ -350,6 +350,7 @@ return {
           { name = "nvim_lsp" },
         },
         mapping = cmp.mapping.preset.insert({
+          ["<CR>"] = cmp.mapping.confirm({ select = false }),
           ["<C-Space>"] = cmp.mapping.complete(),
           ["<C-u>"] = cmp.mapping.scroll_docs(-4),
           ["<C-d>"] = cmp.mapping.scroll_docs(4),
@@ -424,6 +425,30 @@ return {
             require("lspconfig")[server_name].setup({})
           end,
         },
+      })
+
+      require("lspconfig").lua_ls.setup({
+        settings = {
+          Lua = {
+            diagnostics = {
+              globals = { "vim" },
+            },
+          },
+        },
+      })
+
+      local port = os.getenv("GDScript_Port") or "65534"
+      local cmd = vim.lsp.rpc.connect("172.30.0.1", port)
+      require("lspconfig").gdscript.setup({
+        cmd = cmd,
+        on_attach = function(client, bufnr)
+          print("gdscript attached")
+        end,
+        filetypes = { "gdscript" },
+        root_dir = vim.fs.dirname(vim.fs.find({ "project.godot", ".git" }, {
+          upward = true,
+          path = vim.fs.dirname(vim.api.nvim_buf_get_name(0)),
+        })[1]),
       })
     end,
   },
