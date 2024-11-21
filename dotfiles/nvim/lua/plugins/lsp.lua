@@ -437,7 +437,8 @@ return {
         },
       })
 
-      local port = os.getenv("GDScript_Port") or "65534"
+      -- Godot setup
+      local port = "65534"
       local cmd = vim.lsp.rpc.connect("172.30.0.1", port)
       require("lspconfig").gdscript.setup({
         cmd = cmd,
@@ -485,6 +486,7 @@ return {
         typescript = { "prettier" },
         yaml = { "prettier" },
         json = { "prettier" },
+        gdscript = { "gdformat" },
       },
       -- Conform will notify you when a formatter errors
       notify_on_error = true,
