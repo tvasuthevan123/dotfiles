@@ -4,13 +4,6 @@
 
 vim.opt.number = true
 vim.opt.relativenumber = false
-
--- vim.filetype.add({
---   pattern = {
---     [".*%.component%.html"] = "htmlangular", -- sets the filetype to `angular.html` if it matches the pattern
---   },
--- })
-
 vim.opt.autochdir = true
 vim.opt.termguicolors = true
 
