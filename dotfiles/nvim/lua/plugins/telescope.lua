@@ -122,8 +122,22 @@ return {
 
       telescope.load_extension("file_browser")
 
+      vim.keymap.set("n", "<leader>sF", function()
+        builtin.find_files({
+          cwd = "./",
+          no_ignore = false,
+          hidden = true,
+          respect_gitignore = false,
+          path_display = { "filename_first" },
+          file_ignore_patterns = { "node_modules", ".git/", ".venv", "node_modules" },
+          mappings = {
+            ["r"] = fb_actions.rename,
+          },
+        })
+      end)
       vim.keymap.set("n", "<leader>sf", function()
         builtin.find_files({
+          cwd = vim.fn.expand("%:h"),
           no_ignore = false,
           hidden = true,
           respect_gitignore = false,
@@ -168,22 +182,10 @@ return {
       vim.keymap.set("n", "<leader>sd", function()
         builtin.diagnostics()
       end)
-      vim.keymap.set("n", "<leader><leader>", function()
-        telescope.extensions.file_browser.file_browser({
-          path = "%:p:h",
-          cwd = telescope_buffer_dir(),
-          respect_gitignore = false,
-          hidden = true,
-          grouped = true,
-          previewer = true,
-          initial_mode = "normal",
-          layout_config = { height = 40 },
-        })
-      end)
     end,
   },
   {
     "nvim-telescope/telescope-file-browser.nvim",
     dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
-  }
+  },
 }

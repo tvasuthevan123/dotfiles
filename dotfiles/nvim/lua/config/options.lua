@@ -4,7 +4,7 @@
 
 vim.opt.number = true
 vim.opt.relativenumber = false
-vim.opt.autochdir = true
+vim.opt.autochdir = false
 vim.opt.termguicolors = true
 
 -- vim.wo.fillchars='eob: '
