@@ -57,14 +57,17 @@
 return {
   {
     "nvim-telescope/telescope.nvim",
+    dependencies = {
+      "nvim-telescope/telescope-live-grep-args.nvim",
+    },
     config = function()
       local telescope = require("telescope")
       local actions = require("telescope.actions")
       local builtin = require("telescope.builtin")
+      local lga_actions = require("telescope-live-grep-args.actions")
 
-      local function telescope_buffer_dir()
-        return vim.fn.expand("%:p:h")
-      end
+      telescope.load_extension("file_browser")
+      telescope.load_extension("live_grep_args")
 
       local fb_actions = require("telescope").extensions.file_browser.actions
       telescope.setup({
@@ -117,10 +120,19 @@ return {
               },
             },
           },
+          live_grep_args = {
+            auto_quoting = true,
+            mappings = {
+              i = {
+                ["<C-f>"] = lga_actions.quote_prompt(),
+                -- ["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
+                -- freeze the current list and start a fuzzy search in the frozen list
+                ["<C-u>"] = actions.to_fuzzy_refine,
+              },
+            },
+          },
         },
       })
-
-      telescope.load_extension("file_browser")
 
       vim.keymap.set("n", "<leader>sF", function()
         builtin.find_files({
@@ -133,6 +145,13 @@ return {
           mappings = {
             ["r"] = fb_actions.rename,
           },
+        })
+      end)
+      vim.keymap.set("n", "<leader>sg", function()
+        telescope.extensions.live_grep_args.live_grep_args({
+          no_ignore = false,
+          hidden = true,
+          file_ignore_patterns = { ".git/", "package-lock.json", "**/package-lock.json", "**/poetry.lock", "**/*.svg" },
         })
       end)
       vim.keymap.set("n", "<leader>sf", function()
@@ -148,12 +167,8 @@ return {
           },
         })
       end)
-      vim.keymap.set("n", "<leader>sg", function()
-        builtin.live_grep({
-          no_ignore = false,
-          hidden = true,
-          file_ignore_patterns = { ".git/", "package-lock.json", "**/package-lock.json", "**/poetry.lock", "**/*.svg" },
-        })
+      vim.keymap.set("n", "<leader>st", function()
+        builtin.treesitter()
       end)
       vim.keymap.set("n", "<leader>s\\", function()
         builtin.buffers()
