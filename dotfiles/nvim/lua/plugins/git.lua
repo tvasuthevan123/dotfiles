@@ -108,4 +108,5 @@ return {
   { "akinsho/git-conflict.nvim", version = "*", config = true },
   { "ruanyl/vim-gh-line" },
   { "tpope/vim-fugitive" },
+  { "sindrets/diffview.nvim" },
 }

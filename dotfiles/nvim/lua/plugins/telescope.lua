@@ -134,7 +134,7 @@ return {
         },
       })
 
-      vim.keymap.set("n", "<leader>sF", function()
+      vim.keymap.set("n", "<leader>sf", function()
         builtin.find_files({
           cwd = "./",
           no_ignore = false,
@@ -154,7 +154,7 @@ return {
           file_ignore_patterns = { ".git/", "package-lock.json", "**/package-lock.json", "**/poetry.lock", "**/*.svg" },
         })
       end)
-      vim.keymap.set("n", "<leader>sf", function()
+      vim.keymap.set("n", "<leader>sF", function()
         builtin.find_files({
           cwd = vim.fn.expand("%:h"),
           no_ignore = false,

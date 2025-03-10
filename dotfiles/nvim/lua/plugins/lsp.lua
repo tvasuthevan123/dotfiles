@@ -380,6 +380,7 @@ return {
       { "hrsh7th/cmp-nvim-lsp" },
       { "williamboman/mason.nvim" },
       { "williamboman/mason-lspconfig.nvim" },
+      -- { "" },
     },
     init = function()
       -- Reserve a space in the gutter
@@ -400,6 +401,9 @@ return {
         desc = "LSP actions",
         callback = function(event)
           local opts = { buffer = event.buf }
+
+          -- local builtin = require('telescope.builtin')
+          -- local actions = require('telescope.actions')
 
           vim.keymap.set("n", "K", "<cmd>lua vim.lsp.buf.hover()<cr>", opts)
           vim.keymap.set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<cr>", opts)
@@ -432,6 +436,7 @@ return {
           "pyright",
           "angularls",
           "ltex",
+          "marksman",
         },
         handlers = {
           -- this first function is the "default handler"
@@ -502,11 +507,35 @@ return {
         yaml = { "prettier" },
         json = { "prettier" },
         gdscript = { "gdformat" },
+        markdown = { "markdownlint-cli2", "markdown-toc" },
       },
       -- Conform will notify you when a formatter errors
       notify_on_error = true,
       -- Conform will notify you when no formatters are available for the buffer
       notify_no_formatters = true,
     },
+  },
+
+  {
+    "nvim-flutter/flutter-tools.nvim",
+    lazy = false,
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "stevearc/dressing.nvim", -- optional for vim.ui.select
+    },
+    config = function()
+      require("flutter-tools").setup({
+        lsp = {
+          color = { -- show the derived colours for dart variables
+            enabled = true, -- whether or not to highlight color variables at all, only supported on flutter >= 2.10
+            background = true, -- highlight the background
+            -- background_color = nil, -- required, when background is transparent (i.e. background_color = { r = 19, g = 17, b = 24},)
+            foreground = true, -- highlight the foreground
+            virtual_text = true, -- show the highlight using virtual text
+            virtual_text_str = "■", -- the virtual text character to highlight
+          },
+        },
+      })
+    end,
   },
 }

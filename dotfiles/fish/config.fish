@@ -8,6 +8,8 @@ and . (code --locate-shell-integration-path fish)
 set -x UJ_DIR $HOME/Documents/UJ
 set -x GDScript_Port 7032
 set -x KUBE_EDITOR nvim
+set -x CHROME_EXECUTABLE "/Applications/Brave Browser.app/Contents/MacOS/Brave Browser"
+set -x ANDROID_HOME $HOME/Library/Android/sdk
 
 function repos
     cd $UJ_DIR/$argv[1]
@@ -19,6 +21,7 @@ alias wpull="wmill sync pull"
 alias wpush="wmill sync push"
 alias ls="eza -l --git --icons"
 alias tree="eza -TL"
+alias fgc="git commit -am '<chore>: Apply formatting'"
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/thanuj/google-cloud-sdk/path.fish.inc' ]
@@ -29,6 +32,10 @@ set -x NVM_DIR $HOME/.nvm
 
 bass source '/opt/homebrew/opt/nvm/nvm.sh'
 
-set -x DENO_INSTALL $HOME/.deno
-fish_add_path $HOME/.deno
-fish_add_path $DENO_INSTALL/bin
+set -x LDFLAGS -L/opt/homebrew/opt/mysql-client/lib
+set -x CPPFLAGS -I/opt/homebrew/opt/mysql-client/include
+fish_add_path /opt/homebrew/opt/mysql-client/bin
+
+#set -x DENO_INSTALL $HOME/.deno
+#fish_add_path $HOME/.deno
+#fish_add_path $DENO_INSTALL/bin

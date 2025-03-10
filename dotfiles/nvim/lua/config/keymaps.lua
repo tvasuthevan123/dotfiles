@@ -82,3 +82,6 @@ vim.keymap.set("n", "<leader>fb", ":Telescope file_browser path=%:p:h select_buf
 
 -- Oil file_browser
 vim.keymap.set("n", "-", "<CMD>Oil --float<CR>", { desc = "Open parent directory" })
+
+vim.keymap.set("v", "<", "<gv")
+vim.keymap.set("v", ">", ">gv")
