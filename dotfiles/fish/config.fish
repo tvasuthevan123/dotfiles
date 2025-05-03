@@ -5,6 +5,8 @@ end
 string match -q "$TERM_PROGRAM" vscode
 and . (code --locate-shell-integration-path fish)
 
+eval (/opt/homebrew/bin/brew shellenv)
+
 set -x UJ_DIR $HOME/Documents/UJ
 set -x GDScript_Port 7032
 set -x KUBE_EDITOR nvim
@@ -22,6 +24,8 @@ alias wpush="wmill sync push"
 alias ls="eza -l --git --icons"
 alias tree="eza -TL"
 alias fgc="git commit -am '<chore>: Apply formatting'"
+alias pers="cd ~/Documents/personal"
+alias python="/opt/homebrew/bin/python3.10"
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/thanuj/google-cloud-sdk/path.fish.inc' ]
@@ -39,3 +43,7 @@ fish_add_path /opt/homebrew/opt/mysql-client/bin
 #set -x DENO_INSTALL $HOME/.deno
 #fish_add_path $HOME/.deno
 #fish_add_path $DENO_INSTALL/bin
+uv generate-shell-completion fish | source
+
+# uv
+fish_add_path "/Users/thanuj/.local/bin"

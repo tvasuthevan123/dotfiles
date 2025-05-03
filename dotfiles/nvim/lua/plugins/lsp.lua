@@ -415,6 +415,18 @@ return {
           vim.keymap.set("n", "<F2>", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
           vim.keymap.set({ "n", "x" }, "<F3>", "<cmd>lua vim.lsp.buf.format({async = true})<cr>", opts)
           vim.keymap.set("n", "<F4>", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
+
+          local opts = { noremap = true, silent = true }
+
+          local function quickfix()
+            vim.lsp.buf.code_action({
+              filter = function(a)
+                return a.isPreferred
+              end,
+            })
+          end
+
+          vim.keymap.set("n", "Qf", quickfix, opts)
         end,
       })
 
@@ -530,12 +542,55 @@ return {
             enabled = true, -- whether or not to highlight color variables at all, only supported on flutter >= 2.10
             background = true, -- highlight the background
             -- background_color = nil, -- required, when background is transparent (i.e. background_color = { r = 19, g = 17, b = 24},)
-            foreground = true, -- highlight the foreground
-            virtual_text = true, -- show the highlight using virtual text
+            foreground = false, -- highlight the foreground
+            virtual_text = false, -- show the highlight using virtual text
             virtual_text_str = "■", -- the virtual text character to highlight
           },
         },
       })
     end,
+  },
+  {
+    "folke/trouble.nvim",
+    dependencies = { "nvim-flutter/flutter-tools.nvim" },
+    opts = {}, -- for default options, refer to the configuration section for custom setup.
+    cmd = "Trouble",
+    keys = {
+      {
+        "<leader>xx",
+        "<cmd>Trouble diagnostics toggle<cr>",
+        desc = "Diagnostics (Trouble)",
+      },
+      {
+        "<leader>xX",
+        "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
+        desc = "Buffer Diagnostics (Trouble)",
+      },
+      {
+        "<leader>cs",
+        "<cmd>Trouble symbols toggle focus=false<cr>",
+        desc = "Symbols (Trouble)",
+      },
+      {
+        "<leader>cl",
+        "<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
+        desc = "LSP Definitions / references / ... (Trouble)",
+      },
+      {
+        "<leader>xL",
+        "<cmd>Trouble loclist toggle<cr>",
+        desc = "Location List (Trouble)",
+      },
+      {
+        "<leader>xQ",
+        "<cmd>Trouble qflist toggle<cr>",
+        desc = "Quickfix List (Trouble)",
+      },
+    },
+  },
+  {
+    "Chaitanyabsprip/fastaction.nvim",
+    ---@type FastActionConfig
+    opts = {},
   },
 }

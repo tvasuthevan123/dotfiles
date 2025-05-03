@@ -1,15 +1,15 @@
 #!/bin/bash
 
 if [ -f "./.gitconfig" ]; then
-	current_config=$(cat "./.gitconfig")
+  current_config=$(cat "./.gitconfig")
 
-	if ! grep -q "delta" "$HOME/.gitconfig"; then
-		echo "$current_config" >>"$HOME/.gitconfig"
-	fi
+  if ! grep -q "delta" "$HOME/.gitconfig"; then
+    echo "$current_config" >>"$HOME/.gitconfig"
+  fi
 
-	echo "Successfully appended .gitconfig from current directory to ~/.gitconfig"
+  echo "Successfully appended .gitconfig from current directory to ~/.gitconfig"
 else
-	echo "Error: .gitconfig file not found in the current directory."
+  echo "Error: .gitconfig file not found in the current directory."
 fi
 
 echo "Create .config directory"
@@ -19,6 +19,7 @@ echo "Symlinks"
 ln -sf "$(pwd)/dotfiles/nvim" ~/.config
 ln -sf "$(pwd)/dotfiles/tmux" ~/.config
 ln -sf "$(pwd)/dotfiles/fish" ~/.config
+ln -sf "$(pwd)/dotfiles/uv" ~/.config
 
 echo "Reset TMUX Plugins Folder"
 rm -rf ~/.config/tmux/plugins/
