@@ -78,10 +78,21 @@ keymap.set("n", "<leader>rn", vim.lsp.buf.rename, {})
 keymap.set("n", "<leader>tb", "<cmd>Gitsigns toggle_current_line_blame<CR>", { noremap = true })
 
 -- Telescope file browser
-vim.keymap.set("n", "<leader>fb", ":Telescope file_browser path=%:p:h select_buffer=true<CR>")
+keymap.set("n", "<leader>fb", ":Telescope file_browser path=%:p:h select_buffer=true<CR>")
 
 -- Oil file_browser
-vim.keymap.set("n", "-", "<CMD>Oil --float<CR>", { desc = "Open parent directory" })
+keymap.set("n", "-", "<CMD>Oil --float<CR>", { desc = "Open parent directory" })
 
-vim.keymap.set("v", "<", "<gv")
-vim.keymap.set("v", ">", ">gv")
+keymap.set("v", "<", "<gv")
+keymap.set("v", ">", ">gv")
+
+keymap.set("n", "K", "<cmd>lua vim.lsp.buf.hover()<cr>")
+keymap.set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<cr>")
+keymap.set("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<cr>")
+keymap.set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<cr>")
+keymap.set("n", "go", "<cmd>lua vim.lsp.buf.type_definition()<cr>")
+keymap.set("n", "gr", "<cmd>lua vim.lsp.buf.references()<cr>")
+keymap.set("n", "gs", "<cmd>lua vim.lsp.buf.signature_help()<cr>")
+keymap.set("n", "<F2>", "<cmd>lua vim.lsp.buf.rename()<cr>")
+keymap.set({ "n", "x" }, "<F3>", "<cmd>lua vim.lsp.buf.format({async = true})<cr>")
+keymap.set("n", "<F4>", "<cmd>lua vim.lsp.buf.code_action()<cr>")

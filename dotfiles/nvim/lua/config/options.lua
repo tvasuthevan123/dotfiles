@@ -34,7 +34,15 @@ opt.fillchars = {
   diff = "╱",
   eob = " ",
 }
+
+-- Fold config
+opt.foldmethod = "expr"
+opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 opt.foldlevel = 99
+opt.foldlevelstart = 10
+-- opt.foldnestmax =
+opt.foldcolumn = "1"
+
 opt.grepformat = "%f:%l:%c:%m"
 opt.grepprg = "rg --vimgrep"
 opt.inccommand = "split" -- preview incremental substitute
