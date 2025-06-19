@@ -1,4 +1,5 @@
 .DS_Store
+dotfiles/fish/local.fish
 dotfiles/tmux/plugins/
 *gitignore.lua
 **lock.json
