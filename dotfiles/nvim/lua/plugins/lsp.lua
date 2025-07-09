@@ -339,35 +339,75 @@ return {
   },
 
   -- Autocompletion
+  -- {
+  --   "hrsh7th/nvim-cmp",
+  --   event = "InsertEnter",
+  --   config = function()
+  --     local cmp = require("cmp")
+  --
+  --     cmp.setup({
+  --       sources = {
+  --         { name = "nvim_lsp" },
+  --       },
+  --       mapping = cmp.mapping.preset.insert({
+  --         ["<CR>"] = cmp.mapping.confirm({ select = false }),
+  --         ["<C-Space>"] = cmp.mapping.complete(),
+  --         ["<C-u>"] = cmp.mapping.scroll_docs(-4),
+  --         ["<C-d>"] = cmp.mapping.scroll_docs(4),
+  --       }),
+  --       snippet = {
+  --         expand = function(args)
+  --           vim.snippet.expand(args.body)
+  --         end,
+  --       },
+  --     })
+  --
+  --     cmp.setup.filetype({ "sql" }, {
+  --       sources = {
+  --         { name = "vim-dadbod-completion" },
+  --         { name = "buffer" },
+  --       },
+  --     })
+  --   end,
+  -- },
+
   {
-    "hrsh7th/nvim-cmp",
-    event = "InsertEnter",
-    config = function()
-      local cmp = require("cmp")
+    "saghen/blink.cmp",
+    -- optional: provides snippets for the snippet source
+    dependencies = { "rafamadriz/friendly-snippets", "Kaiser-Yang/blink-cmp-avante" },
 
-      cmp.setup({
-        sources = {
-          { name = "nvim_lsp" },
+    version = "1.*",
+    ---@module 'blink.cmp'
+    ---@type blink.cmp.Config
+    opts = {
+      keymap = { preset = "default" },
+      appearance = {
+        nerd_font_variant = "mono",
+      },
+      completion = { documentation = { auto_show = false } },
+      sources = {
+        default = { "lsp", "buffer", "path" },
+        per_filetype = {
+          AvanteSelectedFiles = { "avante", "path", "buffer" },
+          AvanteInput = { "avante", "path", "buffer" },
         },
-        mapping = cmp.mapping.preset.insert({
-          ["<CR>"] = cmp.mapping.confirm({ select = false }),
-          ["<C-Space>"] = cmp.mapping.complete(),
-          ["<C-u>"] = cmp.mapping.scroll_docs(-4),
-          ["<C-d>"] = cmp.mapping.scroll_docs(4),
-        }),
-        snippet = {
-          expand = function(args)
-            vim.snippet.expand(args.body)
-          end,
+        providers = {
+          lsp = {
+            name = "LSP",
+            module = "blink.cmp.sources.lsp",
+          },
+          avante = {
+            name = "Avante",
+            module = "blink-cmp-avante",
+          },
         },
-      })
-
-      cmp.setup.filetype({ "sql" }, {
-        sources = {
-          { name = "vim-dadbod-completion" },
-          { name = "buffer" },
-        },
-      })
+      },
+      fuzzy = { implementation = "prefer_rust_with_warning" },
+    },
+    opts_extend = { "sources.default" },
+    config = function(_, opts)
+      local blink = require("blink.cmp")
+      blink.setup(opts)
     end,
   },
 
@@ -377,9 +417,9 @@ return {
     cmd = { "LspInfo", "LspInstall", "LspStart" },
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
-      { "hrsh7th/cmp-nvim-lsp" },
       { "williamboman/mason.nvim" },
       { "williamboman/mason-lspconfig.nvim" },
+      { "WhoIsSethDaniel/mason-tool-installer.nvim" },
       -- { "" },
     },
     init = function()
@@ -389,11 +429,48 @@ return {
     end,
     config = function()
       local lsp_defaults = require("lspconfig").util.default_config
+      local capabilities = require("blink.cmp").get_lsp_capabilities()
+      local servers = {
+        vtsls = {},
+        rust_analyzer = {},
+        -- eslint = {},
+        tailwindcss = {},
+        dockerls = {},
+        docker_compose_language_service = {},
+        pyright = {},
+        lua_ls = {
+          settings = {
+            Lua = {
+              diagnostics = {
+                globals = { "vim" },
+              },
+            },
+          },
+        },
+        kotlin_language_server = {},
+        -- "angularls" = {} // Conflict with vtsls
+      }
 
-      -- Add cmp_nvim_lsp capabilities settings to lspconfig
-      -- This should be executed before you configure any language server
-      lsp_defaults.capabilities =
-        vim.tbl_deep_extend("force", lsp_defaults.capabilities, require("cmp_nvim_lsp").default_capabilities())
+      for server, config in pairs(servers) do
+        if not vim.tbl_isempty(config) then
+          vim.lsp.config(server, config)
+        end
+      end
+
+      local ensure_installed = vim.tbl_keys(servers or {})
+      vim.list_extend(ensure_installed, {
+        "stylua", -- Used to format Lua code
+        "prettier",
+        "markdownlint-cli2",
+        "ruff",
+        "black",
+      })
+      require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
+      require("mason").setup()
+      require("mason-lspconfig").setup({
+        ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
+        automatic_enable = true,
+      })
 
       -- LspAttach is where you enable features that only work
       -- if there is a language server active in the file
@@ -431,58 +508,30 @@ return {
       })
 
       -- Cos Angular just had to be a PITA
-
       vim.filetype.add({
         pattern = {
           [".*%.component%.html"] = "htmlangular", -- sets the filetype to `angular.html` if it matches the pattern
         },
       })
 
-      require("mason-lspconfig").setup({
-        ensure_installed = {
-          "rust_analyzer",
-          "eslint",
-          "tailwindcss",
-          "dockerls",
-          "docker_compose_language_service",
-          "pyright",
-          "angularls",
-          "ltex",
-          "marksman",
-        },
-        handlers = {
-          -- this first function is the "default handler"
-          -- it applies to every language server without a "custom handler"
-          function(server_name)
-            require("lspconfig")[server_name].setup({})
-          end,
-        },
-      })
+      -- -- Godot setup - Deprecated for now
+      -- local port = "65534"
+      -- local cmd = vim.lsp.rpc.connect("172.30.0.1", port)
+      -- require("lspconfig").gdscript.setup({
+      --   cmd = cmd,
+      --   on_attach = function(client, bufnr)
+      --     print("gdscript attached")
+      --   end,
+      --   filetypes = { "gdscript" },
+      --   root_dir = vim.fs.dirname(vim.fs.find({ "project.godot", ".git" }, {
+      --     upward = true,
+      --     path = vim.fs.dirname(vim.api.nvim_buf_get_name(0)),
+      --   })[1]),
+      -- })
 
-      require("lspconfig").lua_ls.setup({
-        settings = {
-          Lua = {
-            diagnostics = {
-              globals = { "vim" },
-            },
-          },
-        },
-      })
-
-      -- Godot setup
-      local port = "65534"
-      local cmd = vim.lsp.rpc.connect("172.30.0.1", port)
-      require("lspconfig").gdscript.setup({
-        cmd = cmd,
-        on_attach = function(client, bufnr)
-          print("gdscript attached")
-        end,
-        filetypes = { "gdscript" },
-        root_dir = vim.fs.dirname(vim.fs.find({ "project.godot", ".git" }, {
-          upward = true,
-          path = vim.fs.dirname(vim.api.nvim_buf_get_name(0)),
-        })[1]),
-      })
+      -- Ensures that the treesitter tokens priority is higher than lsp priority
+      -- otherwise it will generate a jarring color changing effect
+      vim.highlight.priorities.semantic_tokens = 95
     end,
   },
 

@@ -1,3 +1,4 @@
+-- TODO: Move to LSP area (common func, might be able to use mason/tables)
 local load_textobjects = false
 return {
   -- Treesitter is a new parser generator tool that we can
@@ -23,7 +24,7 @@ return {
     cmd = { "TSUpdateSync" },
     keys = {
       { "<c-space>", desc = "Increment selection" },
-      { "<bs>",      desc = "Decrement selection", mode = "x" },
+      { "<bs>", desc = "Decrement selection", mode = "x" },
     },
     ---@type TSConfig
     opts = {
@@ -61,6 +62,9 @@ return {
         "xml",
         "yaml",
       },
+      auto_install = true,
+      modules = {},
+      ignore_install = {},
       incremental_selection = {
         enable = true,
         keymaps = {
@@ -86,7 +90,6 @@ return {
       end
       require("nvim-treesitter.configs").setup(opts)
 
-
       -- Use the existing angularhtml filetype instead!
       -- vim.filetype.add({
       --     pattern = {
@@ -101,8 +104,7 @@ return {
             if opts.textobjects[mod] and opts.textobjects[mod].enable then
               local Loader = require("lazy.core.loader")
               Loader.disabled_rtp_plugins["nvim-treesitter-textobjects"] = nil
-              local plugin = require("lazy.core.config").plugins
-                  ["nvim-treesitter-textobjects"]
+              local plugin = require("lazy.core.config").plugins["nvim-treesitter-textobjects"]
               require("lazy.core.loader").source_runtime(plugin.dir, "plugin")
               break
             end

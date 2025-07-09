@@ -7,7 +7,8 @@ end
 
 /opt/homebrew/bin/brew shellenv | source 
 
-set -x CHROME_EXECUTABLE "/Applications/Brave Browser.app/Contents/MacOS/Brave Browser"
+# set -x CHROME_EXECUTABLE "/Applications/Brave Browser.app/Contents/MacOS/Brave Browser"
+set -g -x CONFIG_PATH "$HOME/.config"
 
 alias ls="eza -l --git --icons"
 alias tree="eza -TL"
@@ -18,8 +19,8 @@ alias pers="cd ~/Documents/personal"
 #     . '/Users/thanuj/google-cloud-sdk/path.fish.inc'
 # end
 
-if test -f ./local.fish
-    source ./local.fish
+if test -f ~/.config/fish/local.fish
+    source ~/.config/fish/local.fish
 end
 
 set -x NVM_DIR $HOME/.nvm
