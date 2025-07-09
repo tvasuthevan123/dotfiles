@@ -13,8 +13,8 @@ function main
     or set -g OMF_PATH_DEFAULT "$HOME/.local/share/omf"
 
   set -q XDG_CONFIG_HOME
-    and set -g CONFIG_PATH "$XDG_CONFIG_HOME"
-    or set -g CONFIG_PATH "$HOME/.config"
+    and set -g -x CONFIG_PATH "$XDG_CONFIG_HOME"
+    or set -g -x CONFIG_PATH "$HOME/.config"
 
   set -g OMF_CONFIG_DEFAULT "$CONFIG_PATH/omf"
   set -g FISH_CONFIG "$CONFIG_PATH/fish"

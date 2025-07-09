@@ -28,4 +28,7 @@ lazy.setup("plugins", {
     enabled = true,
     notify = false,
   },
+  rocks = {
+    enabled = false,
+  },
 })

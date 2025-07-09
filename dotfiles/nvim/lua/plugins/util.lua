@@ -1,19 +1,13 @@
-local function term_nav(dir)
-  ---@param self snacks.terminal
-  return function(self)
-    return self:is_floating() and "<c-" .. dir .. ">" or vim.schedule(function()
-      vim.cmd.wincmd(dir)
-    end)
-  end
-end
-
 return {
+  -- Prettified command line
   {
     "VonHeikemen/fine-cmdline.nvim",
     dependencies = {
       { "MunifTanjim/nui.nvim" },
     },
   },
+
+  -- Assortment of utils
   {
     "folke/snacks.nvim",
     priority = 1000,
@@ -138,4 +132,29 @@ return {
       })
     end,
   },
+
+  -- Show key map
+  {
+    "folke/which-key.nvim",
+    event = "VeryLazy",
+    opts = {
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+    },
+    keys = {
+      {
+        "<leader>?",
+        function()
+          require("which-key").show({ global = false })
+        end,
+        desc = "Buffer Local Keymaps (which-key)",
+      },
+    },
+  },
+
+  -- DB Utils
+  "tpope/vim-dadbod",
+  "kristijanhusak/vim-dadbod-completion",
+  "kristijanhusak/vim-dadbod-ui",
 }

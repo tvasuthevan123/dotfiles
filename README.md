@@ -10,3 +10,4 @@
 - fish
 - ohmyfish
 - ripgrep
+- pngpage

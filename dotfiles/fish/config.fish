@@ -10,6 +10,7 @@ end
 # set -x CHROME_EXECUTABLE "/Applications/Brave Browser.app/Contents/MacOS/Brave Browser"
 set -g -x CONFIG_PATH "$HOME/.config"
 
+
 alias ls="eza -l --git --icons"
 alias tree="eza -TL"
 alias fgc="git commit -am '<chore>: Apply formatting'"
@@ -36,3 +37,5 @@ fish_add_path "/Users/thanuj/.local/bin"
 load_nvm > /dev/stderr
 
 starship init fish | source
+pyenv init - fish | source
+

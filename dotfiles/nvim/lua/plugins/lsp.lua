@@ -1,417 +1,15 @@
--- return {
---   {
---     'onsails/lspkind-nvim', -- vscode-like pictograms
---   },
---   {
---     'VonHeikemen/lsp-zero.nvim',
---     branch = 'v4.x',
---     dependencies = {
---       -- LSP Support
---       { 'neovim/nvim-lspconfig' },             -- Required
---       { 'williamboman/mason.nvim' },           -- Optional
---       { 'williamboman/mason-lspconfig.nvim' }, -- Optional
---
---       -- Autocompletion
---       { 'hrsh7th/nvim-cmp' },         -- Required
---       { 'hrsh7th/cmp-nvim-lsp' },     -- Required
---       { 'hrsh7th/cmp-buffer' },       -- Optional
---       { 'hrsh7th/cmp-path' },         -- Optional
---       { 'saadparwaiz1/cmp_luasnip' }, -- Optional
---       { 'hrsh7th/cmp-nvim-lua' },     -- Optional
---
---       -- Snippets
---       { 'L3MON4D3/LuaSnip' },             -- Required
---
---       { 'rafamadriz/friendly-snippets' }, -- Optional
---       { 'ray-x/lsp_signature.nvim' }
---     },
---     config = function()
---       local status, lspkind = pcall(require, "lspkind")
---
---       if (not status) then
---         print("Failed to setup lspzero")
---         return
---       end
---
---       lspkind.init({
---         mode = 'symbol_text',
---
---         -- default symbol map
---         -- can be either 'default' (requires nerd-fonts font) or
---         -- 'codicons' for codicon preset (requires vscode-codicons font)
---         --
---         -- default: 'default'
---         preset = 'codicons',
---
---         -- override preset symbols
---         --
---         -- default: {}
---         symbol_map = {
---           Text = "󰉿",
---           Method = "󰆧",
---           Function = "󰊕",
---           Constructor = "",
---           Field = "󰜢",
---           Variable = "󰀫",
---           Class = "󰠱",
---           Interface = "",
---           Module = "",
---           Property = "󰜢",
---           Unit = "󰑭",
---           Value = "󰎠",
---           Enum = "",
---           Keyword = "󰌋",
---           Snippet = "",
---           Color = "󰏘",
---           File = "󰈙",
---           Reference = "󰈇",
---           Folder = "󰉋",
---           EnumMember = "",
---           Constant = "󰏿",
---           Struct = "󰙅",
---           Event = "",
---           Operator = "󰆕",
---           TypeParameter = "K",
---         },
---       })
---
---
---       -- DEFAULT KEYBINDS
---       --
---       --    K: Displays hover information about the symbol under the cursor
---       --    in a floating window. See :help vim.lsp.buf.hover().
---       --
---       --    gd: Jumps to the definition of the symbol under the cursor.
---       --    See :help vim.lsp.buf.definition().
---       --
---       --    gD: Jumps to the declaration of the symbol under the cursor.
---       --    Some servers don't implement this feature. See :help vim.lsp.buf.declaration().
---       --
---       --    gi: Lists all the implementations for the symbol under the cursor in the quickfix window.
---       --    See :help vim.lsp.buf.implementation().
---       --
---       --    go: Jumps to the definition of the type of the symbol under the cursor.
---       --    See :help vim.lsp.buf.type_definition().
---       --
---       --    gr: Lists all the references to the symbol under the cursor in the quickfix window.
---       --    See :help vim.lsp.buf.references().
---       --
---       --    <Ctrl-k>: Displays signature information about the symbol under the cursor in a floating window. See :help vim.lsp.buf.signature_help(). If a mapping already exists for this key this function is not bound.
---       --
---       --    <F2>: Renames all references to the symbol under the cursor.
---       --    See :help vim.lsp.buf.rename().
---       --
---       --
---       --    <F4>: Selects a code action available at the current cursor position. See :help vim.lsp.buf.code_action().
---       --
---       --    gl: Show diagnostics in a floating window. See :help vim.diagnostic.open_float().
---       --
---       --    [d: Move to the previous diagnostic in the current buffer. See :help vim.diagnostic.goto_prev().
---       --
---       --    ]d: Move to the next diagnostic. See :help vim.diagnostic.goto_next().
---
---
---       ------------------------------------------------------------------------------------------------------------------
---       ------------------------------------------------------------------------------------------------------------------
---
---       local status, lspzero = pcall(require, "lsp-zero")
---       if (not status) then
---         return
---       end
---
---       local lsp_attach = function(client, bufnr)
---         lspzero.default_keymaps({ buffer = bufnr })
---         -- Open diagnostics
---         vim.keymap.set({ 'n' }, 'gl', function()
---           vim.diagnostic.open_float()
---         end)
---
---         -- Format
---         vim.keymap.set({ 'n', 'x' }, ';gfm', function()
---           vim.lsp.buf.format({ async = true, timeout_ms = 1000, bufnr = bufnr })
---         end)
---       end
---
---
---       lspzero.extend_lspconfig({
---         lsp_attach = lsp_attach,
---         sign_text = true,
---         capabilities = require('cmp_nvim_lsp').default_capabilities()
---       })
---
---
---       lspzero.ui({
---         float_border = 'rounded',
---         sign_text = {
---           error = '✘',
---           warn = '▲',
---           hint = '⚑',
---           info = '»',
---         },
---       })
---
---       -- LSP references
---       lspzero.default_keymaps({ buffer = bufnr })
---       vim.keymap.set('n', 'gtr', '<cmd>Telescope lsp_references<cr>', { buffer = false })
---
---       -- format on save
---       lspzero.format_on_save({
---         servers = {
---           ['lua_ls'] = { 'lua' },
---           ['rust_analyzer'] = { 'rust' },
---           ['gopls'] = { 'go' },
---           ['prettier'] = { 'typescript', 'yaml', 'json' },
---           ['ruff'] = { 'python' },
---         }
---       })
---       -- lspconfig
---       require('mason-lspconfig').setup({
---         ensure_installed = {
---           'rust_analyzer',
---           'eslint',
---           'tailwindcss',
---           'dockerls',
---           'docker_compose_language_service',
---           'pyright',
---           'angularls',
---           'ltex',
---         },
---         handlers = {
---           lspzero.default_setup,
---         }
---       })
---
---       require('mason').setup({
---         ensure_installed = {
---           'prettier'
---         }
---       })
---
---       lspzero.use("pyright", {
---         settings = {
---           python = {
---             analysis = {
---               extraPaths = { ".venv" },
---               autoSearchPaths = false,
---               useLibraryCodeForTypes = true,
---               -- diagnosticMode = 'openFilesOnly',
---               diagnosticMode = 'openFilesOnly',
---             },
---           },
---         },
---         single_file_support = true,
---         flags = {
---           -- debounce_text_changes = 50,
---           debounce_text_changes = 250,
---         },
---         on_attach = function(client, bufnr)
---           print("pyright attached")
---         end
---       })
---
---
---       ------------------------------------------------------------------------------------------------------------------
---       ------------------------------------------------------------------------------------------------------------------
---
---       local status, lspconfig = pcall(require, "lspconfig")
---
---       lspconfig.lua_ls.setup({
---         settings = {
---           Lua = {
---             diagnostics = {
---               globals = { 'vim' }
---             }
---           }
---         }
---       })
---
---       lspconfig.angularls.setup({})
---
---       lspconfig.tailwindcss.setup({})
---
---       local status, cmp = pcall(require, "cmp")
---       if (not status) then
---         return
---       end
---
---
---       require('luasnip.loaders.from_snipmate').lazy_load()
---       require('luasnip.loaders.from_vscode').lazy_load()
---       cmp.setup({
---         sources = {
---           { name = 'path' },
---           { name = 'nvim_lsp' },
---           { name = 'luasnip' },
---         },
---         snippet = {
---           expand = function(args)
---             vim.snippet.expand(args.body)
---           end,
---         },
---         formatting = {
---           -- changing the order of fields so the icon is the first
---           fields = { 'menu', 'abbr', 'kind' },
---           format = lspkind.cmp_format(),
---         },
---         mapping = cmp.mapping.preset.insert({
---           ['<CR>'] = cmp.mapping.confirm({ select = false }),
---           ['<C-Space>'] = cmp.mapping.complete(),
---           ['<C-d>'] = cmp.mapping.scroll_docs(-4),
---           ['<C-u>'] = cmp.mapping.scroll_docs(4),
---         })
---       })
---
---
---       vim.api.nvim_create_autocmd("FileType", {
---         pattern = { "sql", "mysql", "plsql" },
---         callback = function()
---           cmp.setup.buffer({ sources = { { name = 'vim-dadbod-completion' } } })
---         end,
---       })
---
---       local status, lsp_signature = pcall(require, "lsp_signature")
---       if (not status) then return end
---
---       lsp_signature.setup({
---         bind = true, -- This is mandatory, otherwise border config won't get registered.
---         handler_opts = {
---           border = "single",
---         },
---         always_trigger = true, -- sometime show signature on new line or in middle of parameter can be confusing, set it to false for #58
---         toggle_key = '<C-s>',  -- toggle signature on and off in insert mode,  e.g. toggle_key = '<M-x>'
---         timer_interval = 100,
---         transparency = 100,
---         hi_parameter = "LspSignatureActiveParameter", -- how your parameter will be highlight
---       })
---
---       -- Ensures that the treesitter tockens priority is higher than then
---       -- lsp priority otherwise it will generate this jarring color changing effectV
---       vim.highlight.priorities.semantic_tokens = 95
---     end
---   },
---   {
---     'williamboman/mason-lspconfig.nvim',
---   },
---   {
---     'williamboman/mason.nvim',
---     opts = {
---       ui = {
---         border = "single",
---         icons = {
---           package_installed = "✓",
---           package_pending = "➜",
---           package_uninstalled = "✗"
---         }
---       }
---     }
---   },
---   {
---     "L3MON4D3/LuaSnip",
---     -- follow latest release.
---     version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
---     -- install jsregexp (optional!)
---     build = "make install_jsregexp",
---     config = function()
---       local ls = require('luasnip')
---
---       for _, ft_path in ipairs(vim.api.nvim_get_runtime_file("lua/lima_the_lime/snips/ft/*.lua", true)) do
---         loadfile(ft_path)()
---       end
---
---       vim.keymap.set({ "i" }, "<C-K>", function() ls.expand() end, { silent = true })
---       vim.keymap.set({ "i", "s" }, "<C-L>", function() ls.jump(1) end, { silent = true })
---       vim.keymap.set({ "i", "s" }, "<C-J>", function() ls.jump(-1) end, { silent = true })
---
---       vim.keymap.set({ "i", "s" }, "<C-E>", function()
---         if ls.choice_active() then
---           ls.change_choice(1)
---         end
---       end, { silent = true })
---     end,
---   }
--- }
+-- TODO: For treesitter config weirdness, check if config can be simplified
+local load_textobjects = false
 
 return {
+  -- LSP/Formatter installer
   {
     "williamboman/mason.nvim",
     lazy = false,
     opts = {},
   },
 
-  -- Autocompletion
-  -- {
-  --   "hrsh7th/nvim-cmp",
-  --   event = "InsertEnter",
-  --   config = function()
-  --     local cmp = require("cmp")
-  --
-  --     cmp.setup({
-  --       sources = {
-  --         { name = "nvim_lsp" },
-  --       },
-  --       mapping = cmp.mapping.preset.insert({
-  --         ["<CR>"] = cmp.mapping.confirm({ select = false }),
-  --         ["<C-Space>"] = cmp.mapping.complete(),
-  --         ["<C-u>"] = cmp.mapping.scroll_docs(-4),
-  --         ["<C-d>"] = cmp.mapping.scroll_docs(4),
-  --       }),
-  --       snippet = {
-  --         expand = function(args)
-  --           vim.snippet.expand(args.body)
-  --         end,
-  --       },
-  --     })
-  --
-  --     cmp.setup.filetype({ "sql" }, {
-  --       sources = {
-  --         { name = "vim-dadbod-completion" },
-  --         { name = "buffer" },
-  --       },
-  --     })
-  --   end,
-  -- },
-
-  {
-    "saghen/blink.cmp",
-    -- optional: provides snippets for the snippet source
-    dependencies = { "rafamadriz/friendly-snippets", "Kaiser-Yang/blink-cmp-avante" },
-
-    version = "1.*",
-    ---@module 'blink.cmp'
-    ---@type blink.cmp.Config
-    opts = {
-      keymap = { preset = "default" },
-      appearance = {
-        nerd_font_variant = "mono",
-      },
-      completion = { documentation = { auto_show = false } },
-      sources = {
-        default = { "lsp", "buffer", "path" },
-        per_filetype = {
-          AvanteSelectedFiles = { "avante", "path", "buffer" },
-          AvanteInput = { "avante", "path", "buffer" },
-        },
-        providers = {
-          lsp = {
-            name = "LSP",
-            module = "blink.cmp.sources.lsp",
-          },
-          avante = {
-            name = "Avante",
-            module = "blink-cmp-avante",
-          },
-        },
-      },
-      fuzzy = { implementation = "prefer_rust_with_warning" },
-    },
-    opts_extend = { "sources.default" },
-    config = function(_, opts)
-      local blink = require("blink.cmp")
-      blink.setup(opts)
-    end,
-  },
-
-  -- LSP
+  -- LSP Configuration
   {
     "neovim/nvim-lspconfig",
     cmd = { "LspInfo", "LspInstall", "LspStart" },
@@ -428,8 +26,6 @@ return {
       vim.opt.signcolumn = "yes"
     end,
     config = function()
-      local lsp_defaults = require("lspconfig").util.default_config
-      local capabilities = require("blink.cmp").get_lsp_capabilities()
       local servers = {
         vtsls = {},
         rust_analyzer = {},
@@ -437,7 +33,19 @@ return {
         tailwindcss = {},
         dockerls = {},
         docker_compose_language_service = {},
-        pyright = {},
+        basedpyright = {
+          settings = {
+            basedpyright = {
+              autoImportCompletion = true,
+              analysis = {
+                autoSearchPaths = true,
+                diagnosticMode = "workspace",
+                useLibraryCodeForTypes = true,
+                typeCheckingMode = "basic",
+              },
+            },
+          },
+        },
         lua_ls = {
           settings = {
             Lua = {
@@ -514,7 +122,8 @@ return {
         },
       })
 
-      -- -- Godot setup - Deprecated for now
+      -- TODO: Godot setup - Deprecated for now
+
       -- local port = "65534"
       -- local cmd = vim.lsp.rpc.connect("172.30.0.1", port)
       -- require("lspconfig").gdscript.setup({
@@ -531,74 +140,14 @@ return {
 
       -- Ensures that the treesitter tokens priority is higher than lsp priority
       -- otherwise it will generate a jarring color changing effect
-      vim.highlight.priorities.semantic_tokens = 95
+      vim.hl.priorities.semantic_tokens = 95
     end,
   },
 
-  {
-    "stevearc/conform.nvim",
-    event = { "BufWritePre" },
-    cmd = { "ConformInfo" },
-    keys = {
-      {
-        -- Customize or remove this keymap to your liking
-        "<leader>f",
-        function()
-          require("conform").format({ async = true })
-        end,
-        mode = "",
-        desc = "Format buffer",
-      },
-    },
-    -- This will provide type hinting with LuaLS
-    ---@module "conform"
-    ---@type conform.setupOpts
-    opts = {
-      format_on_save = {
-        -- These options will be passed to conform.format()
-        timeout_ms = 500,
-        lsp_format = "fallback",
-      },
-      formatters_by_ft = {
-        lua = { "stylua" },
-        -- Conform will run multiple formatters sequentially
-        python = { "ruff", "black", stop_after_first = true },
-        javascript = { "prettier" },
-        typescript = { "prettier" },
-        yaml = { "prettier" },
-        json = { "prettier" },
-        gdscript = { "gdformat" },
-        markdown = { "markdownlint-cli2", "markdown-toc" },
-      },
-      -- Conform will notify you when a formatter errors
-      notify_on_error = true,
-      -- Conform will notify you when no formatters are available for the buffer
-      notify_no_formatters = true,
-    },
-  },
+  -- Import code actions from LSP autocomplete
+  { "stevanmilic/nvim-lspimport" },
 
-  {
-    "nvim-flutter/flutter-tools.nvim",
-    lazy = false,
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "stevearc/dressing.nvim", -- optional for vim.ui.select
-    },
-    config = function()
-      require("flutter-tools").setup({
-        lsp = {
-          color = { -- show the derived colours for dart variables
-            enabled = true, -- whether or not to highlight color variables at all, only supported on flutter >= 2.10
-            background = true, -- highlight the background
-            -- background_color = nil, -- required, when background is transparent (i.e. background_color = { r = 19, g = 17, b = 24},)
-            foreground = false, -- highlight the foreground
-            virtual_text = false, -- show the highlight using virtual text
-            virtual_text_str = "■", -- the virtual text character to highlight
-          },
-        },
-      })
-    end,
-  },
+  -- Prettier LSP based listing
   {
     "folke/trouble.nvim",
     dependencies = { "nvim-flutter/flutter-tools.nvim" },
@@ -637,9 +186,178 @@ return {
       },
     },
   },
+
+  -- Treesitter config
+  -- Treesitter is a new parser generator tool that we can
+  -- use in Neovim to power faster and more accurate
+  -- syntax highlighting.
   {
-    "Chaitanyabsprip/fastaction.nvim",
-    ---@type FastActionConfig
-    opts = {},
+    "nvim-treesitter/nvim-treesitter",
+    version = false, -- last release is way too old and doesn't work on Windows
+    build = ":TSUpdate",
+    event = { "BufReadPost", "BufNewFile" },
+    dependencies = {
+      {
+        "nvim-treesitter/nvim-treesitter-textobjects",
+        init = function()
+          -- disable rtp plugin, as we only need its queries for mini.ai
+          -- In case other textobject modules are enabled, we will load them
+          -- once nvim-treesitter is loaded
+          require("lazy.core.loader").disable_rtp_plugin("nvim-treesitter-textobjects")
+          load_textobjects = true
+        end,
+      },
+    },
+    cmd = { "TSUpdateSync" },
+    keys = {
+      { "<c-space>", desc = "Increment selection" },
+      { "<bs>", desc = "Decrement selection", mode = "x" },
+    },
+    ---@type TSConfig
+    opts = {
+      sync_install = true,
+      highlight = {
+        enable = true,
+        additional_vim_regex_highlighting = false,
+      },
+      indent = { enable = true },
+      ensure_installed = {
+        "angular",
+        "bash",
+        "c",
+        "diff",
+        "gdscript",
+        "glimmer",
+        "html",
+        "javascript",
+        "jsdoc",
+        "json",
+        "jsonc",
+        "lua",
+        "luadoc",
+        "luap",
+        "markdown",
+        "markdown_inline",
+        "python",
+        "query",
+        "regex",
+        "toml",
+        "tsx",
+        "typescript",
+        "vim",
+        "vimdoc",
+        "xml",
+        "yaml",
+      },
+      auto_install = true,
+      modules = {},
+      ignore_install = {},
+      incremental_selection = {
+        enable = true,
+        keymaps = {
+          init_selection = "<C-space>",
+          node_incremental = "<C-space>",
+          scope_incremental = false,
+          node_decremental = "<bs>",
+        },
+      },
+    },
+    ---@param opts TSConfig
+    config = function(_, opts)
+      if type(opts.ensure_installed) == "table" then
+        ---@type table<string, boolean>
+        local added = {}
+        opts.ensure_installed = vim.tbl_filter(function(lang)
+          if added[lang] then
+            return false
+          end
+          added[lang] = true
+          return true
+        end, opts.ensure_installed)
+      end
+      require("nvim-treesitter.configs").setup(opts)
+
+      if load_textobjects then
+        -- PERF: no need to load the plugin, if we only need its queries for mini.ai
+        if opts.textobjects then
+          for _, mod in ipairs({ "move", "select", "swap", "lsp_interop" }) do
+            if opts.textobjects[mod] and opts.textobjects[mod].enable then
+              local Loader = require("lazy.core.loader")
+              Loader.disabled_rtp_plugins["nvim-treesitter-textobjects"] = nil
+              local plugin = require("lazy.core.config").plugins["nvim-treesitter-textobjects"]
+              require("lazy.core.loader").source_runtime(plugin.dir, "plugin")
+              break
+            end
+          end
+        end
+      end
+    end,
+  },
+
+  -- Flutter extras
+  {
+    "nvim-flutter/flutter-tools.nvim",
+    lazy = false,
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "stevearc/dressing.nvim", -- optional for vim.ui.select
+    },
+    config = function()
+      require("flutter-tools").setup({
+        lsp = {
+          color = { -- show the derived colours for dart variables
+            enabled = true, -- whether or not to highlight color variables at all, only supported on flutter >= 2.10
+            background = true, -- highlight the background
+            -- background_color = nil, -- required, when background is transparent (i.e. background_color = { r = 19, g = 17, b = 24},)
+            foreground = false, -- highlight the foreground
+            virtual_text = false, -- show the highlight using virtual text
+            virtual_text_str = "■", -- the virtual text character to highlight
+          },
+        },
+      })
+    end,
+  },
+
+  -- Python venv selector
+  {
+    "linux-cultist/venv-selector.nvim",
+    dependencies = {
+      "neovim/nvim-lspconfig",
+      "mfussenegger/nvim-dap",
+      "mfussenegger/nvim-dap-python", --optional
+      { "nvim-telescope/telescope.nvim", branch = "0.1.x", dependencies = { "nvim-lua/plenary.nvim" } },
+    },
+    lazy = false,
+    branch = "regexp", -- This is the regexp branch, use this for the new version
+    stay_on_this_version = true,
+    config = function()
+      require("venv-selector").setup({})
+    end,
+    keys = {
+      { "<leader>cv", "<cmd>VenvSelect<cr>" },
+    },
+  },
+
+  -- For lazy config dev
+  {
+    "folke/lazydev.nvim",
+    ft = "lua", -- only load on lua files
+    opts = {
+      library = {
+        -- See the configuration section for more details
+        -- Load luvit types when the `vim.uv` word is found
+        { path = "luvit-meta/library", words = { "vim%.uv" } },
+      },
+    },
+  },
+
+  { "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
+
+  -- Preview LSP references/implementations in-window
+  {
+    "rmagatti/goto-preview",
+    event = "BufEnter",
+    default_mappings = true,
+    config = true, -- necessary as per https://github.com/rmagatti/goto-preview/issues/88
   },
 }

@@ -1,60 +1,5 @@
--- return {
---   "nvim-telescope/telescope.nvim",
---   dependencies = {
---     "nvim-lua/plenary.nvim",
---     "nvim-tree/nvim-web-devicons",
---   },
---   config = function()
---     local actions = require("telescope.actions")
---     require("telescope").setup({
---       defaults = {
---         -- Other default configurations
---         mappings = {
---           i = {
---             ["<c-p>"] = require("telescope.actions.layout").toggle_preview,
---             ["<s-up>"] = actions.cycle_history_prev,
---             ["<s-down>"] = actions.cycle_history_next,
---           },
---         },
---       },
---       pickers = {
---         find_files = {
---           theme = "dropdown",
---           hidden = true,
---           find_command = {
---             "rg",
---             "--files",
---             "--color",
---             "never",
---             "--ignore-file",
---           },
---         },
---         live_grep = {},
---       },
---       extensions = {
---         -- Extension configurations
---       },
---     })
---   end,
---   init = function()
---     require("cmp").register_source({
---       name = "telescope_commands",
---       new_entries = function(_, _, _, callback)
---         local pickers = {
---           "commands", -- Use the commands picker from telescope.nvim
---         }
---
---         telescope.builtin.commands({}, {}, function(prompt_id, result)
---           if result then
---             callback(result)
---           end
---         end)
---       end,
---     })
---   end,
--- }
-
 return {
+  -- Search (files and expressions)
   {
     "nvim-telescope/telescope.nvim",
     dependencies = {
@@ -203,6 +148,8 @@ return {
     "nvim-telescope/telescope-file-browser.nvim",
     dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
   },
+
+  -- Search and replace
   {
     "MagicDuck/grug-far.nvim",
     -- Note (lazy loading): grug-far.lua defers all it's requires so it's lazy by default
@@ -213,6 +160,40 @@ return {
       require("grug-far").setup({
         -- options, see Configuration section below
         -- there are no required options atm
+      })
+    end,
+  },
+
+  -- Oil browser
+  {
+    "stevearc/oil.nvim",
+    opts = {},
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = function()
+      require("oil").setup({
+        default_file_explorer = true,
+        delete_to_trash = true,
+        view_options = {
+          show_hidden = true,
+          natural_order = true,
+          is_always_hidden = function(name, _)
+            return name == ".." or name == ".git"
+          end,
+        },
+        float = {
+          padding = 2,
+          max_width = 90,
+          max_height = 0,
+        },
+        win_options = {
+          winbar = "%{v:lua.require('oil').get_current_dir()}",
+          wrap = true,
+          winblend = 0,
+        },
+        keymaps = {
+          ["<C-c>"] = false,
+          ["q"] = "actions.close",
+        },
       })
     end,
   },

@@ -37,10 +37,10 @@ keymap.set("n", "<C-w><right>", "<C-w>>")
 keymap.set("n", "<C-w><up>", "<C-w>+")
 keymap.set("n", "<C-w><down>", "<C-w>-")
 
+-- Honestly, idk
 keymap.set("t", "<C-Space>", "<C-\\><C-n><C-w>h", { silent = true })
 
-keymap.set("n", "<leader>gp", ":Gitsigns preview_hunk_inline<CR>")
-
+-- Current buffer absolute path
 vim.api.nvim_set_keymap(
   "n",
   "<leader>ap",
@@ -48,6 +48,7 @@ vim.api.nvim_set_keymap(
   { noremap = true }
 )
 
+-- Current buffer relative path
 vim.api.nvim_set_keymap(
   "n",
   "<leader>rp",
@@ -55,28 +56,12 @@ vim.api.nvim_set_keymap(
   { noremap = true }
 )
 
--- Define the function to open a new tmux pane and run the current Python file
--- TODO: Fix this...
-function open_python_in_new_tmux_pane()
-  -- Get the current file path
-  local file_path = vim.fn.expand("%:p")
-
-  -- Open a new tmux pane below the current one
-  vim.cmd("tmux split-window -h -t.+")
-
-  -- Send the current file path to the new pane
-  vim.cmd("tmux send-keys -t.+ \"'. file_path.. '\"")
-
-  -- Execute the Python file in the new pane
-  vim.cmd("tmux send-keys -t.+ \"python\" '.. file_path.. ' Enter")
-end
-
--- Bind the function to a key, e.g., <leader>p
-vim.api.nvim_set_keymap("n", "<leader>p", "<cmd>lua open_python_in_new_tmux_pane()<cr>", { noremap = true })
-
+-- Rename
 keymap.set("n", "<leader>rn", vim.lsp.buf.rename, {})
 
-keymap.set("n", "<leader>tb", "<cmd>Gitsigns toggle_current_line_blame<CR>", { noremap = true })
+-- Gitsigns
+keymap.set("n", "<leader>gp", ":Gitsigns preview_hunk_inline<CR>")
+keymap.set("n", "<leader>tb", ":Gitsigns toggle_current_line_blame<CR>", { noremap = true })
 
 -- Telescope file browser
 keymap.set("n", "<leader>fb", ":Telescope file_browser path=%:p:h select_buffer=true<CR>")
@@ -84,8 +69,14 @@ keymap.set("n", "<leader>fb", ":Telescope file_browser path=%:p:h select_buffer=
 -- Oil file_browser
 keymap.set("n", "-", "<CMD>Oil --float<CR>", { desc = "Open parent directory" })
 
+-- Natural indent
 keymap.set("v", "<", "<gv")
 keymap.set("v", ">", ">gv")
 
-keymap.set("n", "<Tab>", "<Cmd>BufferLineCycleNext<CR>", {})
-keymap.set("n", "<S-Tab>", "<Cmd>BufferLineCyclePrev<CR>", {})
+-- Fastaction
+keymap.set(
+  { "n", "x" },
+  "<C-.>",
+  '<cmd>lua require("fastaction").code_action()<CR>',
+  { desc = "Display code actions", buffer = bufnr }
+)
