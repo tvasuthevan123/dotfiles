@@ -55,7 +55,7 @@ return {
             },
           },
         },
-        kotlin_language_server = {},
+        -- kotlin_lsp = {}, // Brew install instead
         -- "angularls" = {} // Conflict with vtsls
       }
 
@@ -261,6 +261,19 @@ return {
           node_decremental = "<bs>",
         },
       },
+      textobjects = {
+        move = {
+          enable = true,
+          goto_next = {
+            ["]c"] = "@conditional.outer",
+            ["]p"] = "@parameter.outer",
+          },
+          goto_previous = {
+            ["[c"] = "@conditional.outer",
+            ["[p"] = "@parameter.outer",
+          },
+        },
+      },
     },
     ---@param opts TSConfig
     config = function(_, opts)
@@ -318,6 +331,15 @@ return {
     end,
   },
 
+  "mfussenegger/nvim-dap",
+  {
+    "igorlfs/nvim-dap-view",
+    ---@module 'dap-view'
+    ---@type dapview.Config
+    opts = {},
+  },
+  -- { "Mgenuit/nvim-dap-kotlin", config = true },
+
   -- Python venv selector
   {
     "linux-cultist/venv-selector.nvim",
@@ -360,4 +382,21 @@ return {
     default_mappings = true,
     config = true, -- necessary as per https://github.com/rmagatti/goto-preview/issues/88
   },
+
+  -- -- Kotlin setup (vanilla install doesn't work rn for me)
+  -- {
+  --   "AlexandrosAlexiou/kotlin.nvim",
+  --   ft = { "kotlin" },
+  --   dependencies = { "mason.nvim", "mason-lspconfig.nvim", "oil.nvim" },
+  --   config = function()
+  --     require("kotlin").setup({
+  --       -- Optional: Specify a custom Java path to run the server
+  --       jre_path = os.getenv("JAVA_HOME"),
+  --       -- Optional: Specify additional JVM arguments
+  --       jvm_args = {
+  --         "-Xmx4g",
+  --       },
+  --     })
+  --   end,
+  -- },
 }

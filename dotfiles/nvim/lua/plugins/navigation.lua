@@ -17,16 +17,24 @@ return {
       local fb_actions = require("telescope").extensions.file_browser.actions
       telescope.setup({
         defaults = {
+          sorting_strategy = "ascending",
+          layout_config = {
+            horizontal = {
+              prompt_position = "top",
+              preview_width = 0.3,
+            },
+          },
           wrap_results = true,
-          prompt_prefix = "Search 🔍  ",
+          prompt_prefix = " 󰍉 ",
           mappings = {
             n = {
-              ["q"] = actions.close,
+              ["esc"] = actions.close,
             },
             i = {
               ["<c-p>"] = require("telescope.actions.layout").toggle_preview,
               ["<s-up>"] = actions.cycle_history_prev,
               ["<s-down>"] = actions.cycle_history_next,
+              ["<c-d>"] = actions.delete_buffer + actions.move_to_top,
             },
           },
           vimgrep_arguments = {
@@ -115,8 +123,8 @@ return {
       vim.keymap.set("n", "<leader>st", function()
         builtin.treesitter()
       end)
-      vim.keymap.set("n", "<leader>s\\", function()
-        builtin.buffers()
+      vim.keymap.set("n", "<leader>sb", function()
+        builtin.buffers({})
       end)
       vim.keymap.set("n", "<leader>sq", function()
         builtin.quickfix()
@@ -142,6 +150,9 @@ return {
       vim.keymap.set("n", "<leader>sd", function()
         builtin.diagnostics()
       end)
+      vim.keymap.set("n", "<leader>so", function()
+        builtin.oldfiles()
+      end)
     end,
   },
   {
@@ -152,15 +163,8 @@ return {
   -- Search and replace
   {
     "MagicDuck/grug-far.nvim",
-    -- Note (lazy loading): grug-far.lua defers all it's requires so it's lazy by default
-    -- additional lazy config to defer loading is not really needed...
     config = function()
-      -- optional setup call to override plugin options
-      -- alternatively you can set options with vim.g.grug_far = { ... }
-      require("grug-far").setup({
-        -- options, see Configuration section below
-        -- there are no required options atm
-      })
+      require("grug-far").setup({})
     end,
   },
 
@@ -192,7 +196,7 @@ return {
         },
         keymaps = {
           ["<C-c>"] = false,
-          ["q"] = "actions.close",
+          ["<esc>"] = "actions.close",
         },
       })
     end,

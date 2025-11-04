@@ -5,7 +5,25 @@ end
 # string match -q "$TERM_PROGRAM" vscode
 # and . (code --locate-shell-integration-path fish)
 
-/opt/homebrew/bin/brew shellenv | source 
+/opt/homebrew/bin/brew shellenv | source
+
+# ASDF configuration code
+if test -z $ASDF_DATA_DIR
+    set _asdf_shims "$HOME/.asdf/shims"
+else
+    set _asdf_shims "$ASDF_DATA_DIR/shims"
+end
+
+# Do not use fish_add_path (added in Fish 3.2) because it
+# potentially changes the order of items in PATH
+if not contains $_asdf_shims $PATH
+    set -gx --prepend PATH $_asdf_shims
+end
+set --erase _asdf_shims
+
+source ~/.asdf/plugins/java/set-java-home.fish
+
+asdf completion fish > ~/.config/fish/completions/asdf.fish
 
 # set -x CHROME_EXECUTABLE "/Applications/Brave Browser.app/Contents/MacOS/Brave Browser"
 set -g -x CONFIG_PATH "$HOME/.config"
@@ -39,3 +57,4 @@ load_nvm > /dev/stderr
 starship init fish | source
 pyenv init - fish | source
 
+fish_add_path $HOME/.local/bin

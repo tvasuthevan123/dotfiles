@@ -77,18 +77,20 @@ return {
       format_on_save = {
         -- These options will be passed to conform.format()
         timeout_ms = 500,
-        lsp_format = "fallback",
+        -- lsp_format = "never",
       },
       formatters_by_ft = {
         lua = { "stylua" },
         -- Conform will run multiple formatters sequentially
         python = { "ruff", "black", stop_after_first = true },
         javascript = { "prettier" },
-        typescript = { "prettier" },
+        typescript = { "prettier", lsp_format = "fallback" },
+        tsx = { "prettier", lsp_format = "fallback" },
         yaml = { "prettier" },
         json = { "prettier" },
         gdscript = { "gdformat" },
         markdown = { "markdownlint-cli2", "markdown-toc" },
+        -- kotlin = {},
       },
       -- Conform will notify you when a formatter errors
       notify_on_error = true,

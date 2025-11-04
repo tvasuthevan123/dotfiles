@@ -1,4 +1,5 @@
 return {
+  -- Cursor-style chat
   {
     "yetone/avante.nvim",
     -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
@@ -9,27 +10,42 @@ return {
     ---@module 'avante'
     ---@type avante.Config
     opts = {
+      auto_suggestions_provider = "gemini",
+      cursor_applying_provider = "gemini",
       behaviour = {
         enable_token_counting = false,
+        auto_suggestions = true, -- Experimental stage
+        enable_cursor_planning_mode = true,
+      },
+      mappings = {
+        suggestion = {
+          accept = "<C-s>",
+          next = "<C-\\>",
+          prev = "<C-'>",
+          dismiss = "<C-q>",
+        },
       },
       provider = "gemini",
       providers = {
         gemini = {
           endpoint = "https://generativelanguage.googleapis.com/v1beta/models",
-          model = "gemini-2.5-flash",
-          timeout = 30000, -- Timeout in milliseconds
+          model = "gemini-2.0-flash-lite",
+          timeout = 10000, -- Timeout in milliseconds
           temperature = 0,
-          max_tokens = 8192,
+          max_tokens = 2048,
         },
         gemini_flash = {
           __inherited_from = "gemini",
           model = "gemini-2.5-flash",
+          max_tokens = 8096,
         },
         gemini_pro = {
           __inherited_from = "gemini",
           model = "gemini-2.5-pro",
+          max_tokens = 8096,
         },
       },
+      todos = {}, -- Explicitly initialize todos as an empty table
     },
     dependencies = {
       "nvim-lua/plenary.nvim",
@@ -70,6 +86,8 @@ return {
       },
     },
   },
+
+  -- MCP Setup
   {
     "ravitemer/mcphub.nvim",
     dependencies = {
@@ -82,4 +100,49 @@ return {
       })
     end,
   },
+
+  -- -- Inline code suggestions
+  -- {
+  --   "milanglacier/minuet-ai.nvim",
+  --   config = function()
+  --     require("minuet").setup({
+  --       provider = "gemini",
+  --       provider_options = {
+  --         optional = {
+  --           generationConfig = {
+  --             maxOutputTokens = 256,
+  --             -- When using `gemini-2.5-flash`, it is recommended to entirely
+  --             -- disable thinking for faster completion retrieval.
+  --             thinkingConfig = {
+  --               thinkingBudget = 0,
+  --             },
+  --           },
+  --           safetySettings = {
+  --             {
+  --               category = "HARM_CATEGORY_DANGEROUS_CONTENT",
+  --               threshold = "BLOCK_ONLY_HIGH",
+  --             },
+  --           },
+  --         },
+  --       },
+  --       virtualtext = {
+  --         auto_trigger_ft = {},
+  --         keymap = {
+  --           -- accept whole completion
+  --           accept = "<A-a>",
+  --           -- accept one line
+  --           accept_line = "<A-l>",
+  --           -- accept n lines (prompts for number)
+  --           -- e.g. "A-z 2 CR" will accept 2 lines
+  --           accept_n_lines = "<A-n>",
+  --           -- Cycle to prev completion item, or manually invoke completion
+  --           prev = "<A-up>",
+  --           -- Cycle to next completion item, or manually invoke completion
+  --           next = "<A-down>",
+  --           dismiss = "<A-q>",
+  --         },
+  --       },
+  --     })
+  --   end,
+  -- },
 }

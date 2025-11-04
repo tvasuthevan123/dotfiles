@@ -51,17 +51,17 @@ return {
           end
 
           -- Navigation
-          map("n", "]c", function()
+          map("n", "]h", function()
             if vim.wo.diff then
-              vim.cmd.normal({ "]c", bang = true })
+              vim.cmd.normal({ "]h", bang = true })
             else
               gitsigns.nav_hunk("next")
             end
           end)
 
-          map("n", "[c", function()
+          map("n", "[h", function()
             if vim.wo.diff then
-              vim.cmd.normal({ "[c", bang = true })
+              vim.cmd.normal({ "[h", bang = true })
             else
               gitsigns.nav_hunk("prev")
             end
@@ -109,4 +109,17 @@ return {
   { "ruanyl/vim-gh-line" },
   { "tpope/vim-fugitive" },
   { "sindrets/diffview.nvim" },
+  {
+    "pwntester/octo.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim",
+      -- OR 'ibhagwan/fzf-lua',
+      -- OR 'folke/snacks.nvim',
+      "nvim-tree/nvim-web-devicons",
+    },
+    config = function()
+      require("octo").setup({})
+    end,
+  },
 }
