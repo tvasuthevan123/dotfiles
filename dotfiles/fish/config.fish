@@ -25,8 +25,11 @@ source ~/.asdf/plugins/java/set-java-home.fish
 
 asdf completion fish > ~/.config/fish/completions/asdf.fish
 
+set -x JBR_PATH "/Users/thanuj/.asdf/installs/java/jbr_jcef-21.0.8-osx-aarch64-b895.146/Contents/Home"
 # set -x CHROME_EXECUTABLE "/Applications/Brave Browser.app/Contents/MacOS/Brave Browser"
 set -g -x CONFIG_PATH "$HOME/.config"
+set -g -x OPENCODE_EXPERIMENTAL true
+
 
 
 alias ls="eza -l --git --icons"

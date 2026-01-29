@@ -87,6 +87,10 @@ return {
         },
       })
 
+      vim.keymap.set("n", "<leader>sC", function()
+        builtin.git_status()
+      end, { desc = "Telescope Git Status" })
+
       vim.keymap.set("n", "<leader>sf", function()
         builtin.find_files({
           cwd = "./",

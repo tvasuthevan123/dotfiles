@@ -55,7 +55,7 @@ return {
             },
           },
         },
-        -- kotlin_lsp = {}, // Brew install instead
+        kotlin_language_server = {},
         -- "angularls" = {} // Conflict with vtsls
       }
 
@@ -185,6 +185,11 @@ return {
         desc = "Quickfix List (Trouble)",
       },
     },
+  },
+
+  {
+    "mfussenegger/nvim-jdtls",
+    dependencies = { "neovim/nvim-lspconfig" },
   },
 
   -- Treesitter config
@@ -350,7 +355,6 @@ return {
       { "nvim-telescope/telescope.nvim", branch = "0.1.x", dependencies = { "nvim-lua/plenary.nvim" } },
     },
     lazy = false,
-    branch = "regexp", -- This is the regexp branch, use this for the new version
     stay_on_this_version = true,
     config = function()
       require("venv-selector").setup({})
@@ -391,8 +395,9 @@ return {
   --   config = function()
   --     require("kotlin").setup({
   --       -- Optional: Specify a custom Java path to run the server
-  --       jre_path = os.getenv("JAVA_HOME"),
+  --       -- jre_path = "/Users/thanuj/.asdf/installs/java/temurin-17-lsp",
   --       -- Optional: Specify additional JVM arguments
+  --       jre_path = os.getenv("JBR_PATH"),
   --       jvm_args = {
   --         "-Xmx4g",
   --       },

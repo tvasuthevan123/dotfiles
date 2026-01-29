@@ -3,13 +3,16 @@ return {
   {
     "saghen/blink.cmp",
     -- optional: provides snippets for the snippet source
-    dependencies = { "rafamadriz/friendly-snippets", "Kaiser-Yang/blink-cmp-avante" },
+    dependencies = {
+      "rafamadriz/friendly-snippets",
+      -- "Kaiser-Yang/blink-cmp-avante"
+    },
 
     version = "1.*",
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
     opts = {
-      keymap = { preset = "default" },
+      keymap = { preset = "enter" },
       appearance = {
         nerd_font_variant = "mono",
       },
@@ -17,8 +20,8 @@ return {
       sources = {
         default = { "lsp", "buffer", "path" },
         per_filetype = {
-          AvanteSelectedFiles = { "avante", "path", "buffer" },
-          AvanteInput = { "avante", "path", "buffer" },
+          -- AvanteSelectedFiles = { "avante", "path", "buffer" },
+          -- AvanteInput = { "avante", "path", "buffer" },
           lua = { "lazydev" },
         },
         providers = {
@@ -26,10 +29,10 @@ return {
             name = "LSP",
             module = "blink.cmp.sources.lsp",
           },
-          avante = {
-            name = "Avante",
-            module = "blink-cmp-avante",
-          },
+          -- avante = {
+          --   name = "Avante",
+          --   module = "blink-cmp-avante",
+          -- },
           lazydev = {
             name = "LazyDev",
             module = "lazydev.integrations.blink",
