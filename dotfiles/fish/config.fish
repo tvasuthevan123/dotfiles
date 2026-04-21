@@ -61,3 +61,6 @@ starship init fish | source
 pyenv init - fish | source
 
 fish_add_path $HOME/.local/bin
+
+# Added by Antigravity
+fish_add_path /Users/thanuj/.antigravity/antigravity/bin

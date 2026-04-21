@@ -1,0 +1,17 @@
+# Ghostty Terminal Configuration
+# For full options, see: https://ghostty.org/docs/config
+
+# Shell integration
+shell-integration = fish
+shell-integration-features = cursor,sudo,title
+
+# Clipboard
+clipboard-read = allow
+clipboard-write = allow
+
+# Quick terminal (quake-style)
+# Toggle with Ctrl+`
+quick-terminal-position = top
+quick-terminal-screen = mouse
+quick-terminal-animation-duration = 0.2
+keybind = global:ctrl+grave_accent=toggle_quick_terminal

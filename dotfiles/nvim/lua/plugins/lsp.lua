@@ -55,7 +55,36 @@ return {
             },
           },
         },
-        kotlin_language_server = {},
+        kotlin_lsp = {
+          cmd = { "kotlin-lsp", "--stdio" },
+          filetypes = { "kotlin" },
+          init_options = {
+            storagePath = vim.fn.stdpath("data") .. "/kotlin_lsp",
+          },
+          settings = {
+            kotlin = {
+              compiler = {
+                jvm = { target = "default" },
+              },
+              indexing = { enabled = true },
+              externalSources = {
+                useKlsScheme = true,
+                autoConvertToKotlin = true,
+              },
+              completion = {
+                snippets = { enabled = true },
+              },
+              linting = { debounceTime = 250 },
+            },
+          },
+          root_markers = {
+            "settings.gradle.kts",
+            "settings.gradle",
+            "build.gradle.kts",
+            "build.gradle",
+            "pom.xml",
+          },
+        },
         -- "angularls" = {} // Conflict with vtsls
       }
 
@@ -64,6 +93,9 @@ return {
           vim.lsp.config(server, config)
         end
       end
+
+      -- Kotlin LSP (kotlin-lsp, not managed by mason)
+      vim.lsp.enable("kotlin_lsp")
 
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {

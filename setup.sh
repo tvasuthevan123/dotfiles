@@ -19,5 +19,6 @@ echo "Symlinks"
 ln -sf "$(pwd)/dotfiles/nvim" ~/.config
 ln -sf "$(pwd)/dotfiles/fish" ~/.config
 ln -sf "$(pwd)/dotfiles/uv" ~/.config
+ln -sf "$(pwd)/dotfiles/ghostty" ~/.config
 
 
